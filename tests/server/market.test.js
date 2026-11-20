@@ -1,10 +1,10 @@
 import { describe, expect, it, vi } from 'vitest';
-import { createDeps, handleMarket } from '../server/handler.js';
-import { extractSkills, htmlToText } from '../server/market/extract.js';
-import { locationMatcher, roleMatcher } from '../server/market/filters.js';
-import { createMarketService } from '../server/market/service.js';
-import { createRateLimiter } from '../server/rateLimit.js';
-import { jsonResponse } from './helpers.js';
+import { createDeps, handleMarket } from '../../server/handler.js';
+import { extractSkills, htmlToText } from '../../server/market/extract.js';
+import { locationMatcher, roleMatcher } from '../../server/market/filters.js';
+import { createMarketService } from '../../server/market/service.js';
+import { createRateLimiter } from '../../server/rateLimit.js';
+import { jsonResponse } from '../helpers.js';
 
 const esc = (html) => html.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 

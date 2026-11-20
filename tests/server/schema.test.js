@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import { AnalyzeInput, ReportSchema, goalKind, stripUnsourcedClaims } from '../server/schema.js';
-import { LIMITS } from '../shared/options.js';
-import fixture from './fixtures/report.json';
+import { AnalyzeInput, ReportSchema, goalKind, stripUnsourcedClaims } from '../../server/schema.js';
+import { LIMITS } from '../../shared/options.js';
+import fixture from '../fixtures/report.json';
 
 const clone = (o) => JSON.parse(JSON.stringify(o));
 

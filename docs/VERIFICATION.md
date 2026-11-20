@@ -186,7 +186,7 @@ Line numbers refer to the baseline commit.
     (`src/App.jsx:293-296`) overwrote the entire `form.skills` string with it.
   - Result: after adding "React", typing "P" replaced the list with "P", so earlier
     tags vanished.
-  - A regression test in `tests/app.test.jsx` fails on the old code and passes on
+  - A regression test in `tests/client/app.test.jsx` fails on the old code and passes on
     the fix.
 
 
@@ -201,20 +201,20 @@ launch" item is resolved below; each fix has a test that fails without it.
 
 | Area | Finding | Fix | Test |
 |---|---|---|---|
-| Security | IPv6 clients could rotate through a /64 and drain the global cap; `X-Forwarded-For` was trusted off-Vercel | IPv6 bucketed by /64; proxy headers trusted only on Vercel or with `TRUST_PROXY` | `tests/http.test.js`, `tests/rateLimit.test.js` |
-| Security | An Upstash per-command error became `NaN`, and `NaN > limit` is false, so limits failed open | Replies validated; any bad shape throws into failover | `tests/rateLimit.test.js` |
-| Silent failure | A Redis outage or half-set env silently made the global cap per-instance | Startup `ratelimit_config` errors; degraded mode with `DEGRADED_DAILY_CAP` and a `ratelimit_degraded` alert | `tests/rateLimit.test.js` |
-| Reliability | LLM timer cleared before the body read; two attempts could outlast `maxDuration` | One 50 s deadline covering body reads; env values clamped | `tests/llm.test.js`, `tests/routes.test.js` |
-| Reliability | Cold market runs could exceed 30 s; unique goal text bypassed the cache | 18 s detail deadline (23 s worst case), in-flight de-duplication, 60 uncached fetches per request, normalized cache key | `tests/market.test.js`, `tests/routes.test.js` |
-| Silent failure | Upstream failures were cached as "No matching postings" for hours | `degraded`/`detailsFailed`/`truncated` fields; never cache total failure; degraded results cached 5 min; UI labels partial counts | `tests/market.test.js`, `tests/frontend.test.jsx` |
-| Correctness | A stale `/api/market` response could overwrite a newer run | AbortController per run | `tests/frontend.test.jsx` |
-| Security | Upstream posting URLs rendered as `href` unvalidated | Only https on the ATS hosts; otherwise the canonical URL | `tests/market.test.js` |
-| Validation | Indic/NFD text rejected; free text uncapped; location case-sensitive | `\p{M}` + NFC, word caps, case-insensitive location; newlines still rejected | `tests/schema.test.js` |
-| Reliability | One bad edge or `"high"` score failed the whole report (a paid retry) | Lenient arrays drop bad items; defaults; node minimum re-checked after de-duplication | `tests/schema.test.js` |
-| Error mapping | Groq 5xx and non-retryable 4xx all became retryable `UPSTREAM_ERROR`; retry lacked context | 5xx → `UPSTREAM_BUSY`, 4xx → `INTERNAL`; retry includes the bad reply; truncation gets 1.5× budget | `tests/llm.test.js` |
-| Accessibility | Uncleared blur timers; stale `aria-activedescendant`; `aria-label` overriding visible labels; no live region; silent disabled state; 20 px targets | Timer ref, active reset, mounted listbox, visible labels, `role=status`, `aria-disabled` with explanation, 24 px targets, focus return, Home/End tabs | `tests/frontend.test.jsx`, `tests/app.test.jsx` |
+| Security | IPv6 clients could rotate through a /64 and drain the global cap; `X-Forwarded-For` was trusted off-Vercel | IPv6 bucketed by /64; proxy headers trusted only on Vercel or with `TRUST_PROXY` | `tests/server/http.test.js`, `tests/server/rateLimit.test.js` |
+| Security | An Upstash per-command error became `NaN`, and `NaN > limit` is false, so limits failed open | Replies validated; any bad shape throws into failover | `tests/server/rateLimit.test.js` |
+| Silent failure | A Redis outage or half-set env silently made the global cap per-instance | Startup `ratelimit_config` errors; degraded mode with `DEGRADED_DAILY_CAP` and a `ratelimit_degraded` alert | `tests/server/rateLimit.test.js` |
+| Reliability | LLM timer cleared before the body read; two attempts could outlast `maxDuration` | One 50 s deadline covering body reads; env values clamped | `tests/server/llm.test.js`, `tests/server/routes.test.js` |
+| Reliability | Cold market runs could exceed 30 s; unique goal text bypassed the cache | 18 s detail deadline (23 s worst case), in-flight de-duplication, 60 uncached fetches per request, normalized cache key | `tests/server/market.test.js`, `tests/server/routes.test.js` |
+| Silent failure | Upstream failures were cached as "No matching postings" for hours | `degraded`/`detailsFailed`/`truncated` fields; never cache total failure; degraded results cached 5 min; UI labels partial counts | `tests/server/market.test.js`, `tests/client/frontend.test.jsx` |
+| Correctness | A stale `/api/market` response could overwrite a newer run | AbortController per run | `tests/client/frontend.test.jsx` |
+| Security | Upstream posting URLs rendered as `href` unvalidated | Only https on the ATS hosts; otherwise the canonical URL | `tests/server/market.test.js` |
+| Validation | Indic/NFD text rejected; free text uncapped; location case-sensitive | `\p{M}` + NFC, word caps, case-insensitive location; newlines still rejected | `tests/server/schema.test.js` |
+| Reliability | One bad edge or `"high"` score failed the whole report (a paid retry) | Lenient arrays drop bad items; defaults; node minimum re-checked after de-duplication | `tests/server/schema.test.js` |
+| Error mapping | Groq 5xx and non-retryable 4xx all became retryable `UPSTREAM_ERROR`; retry lacked context | 5xx → `UPSTREAM_BUSY`, 4xx → `INTERNAL`; retry includes the bad reply; truncation gets 1.5× budget | `tests/server/llm.test.js` |
+| Accessibility | Uncleared blur timers; stale `aria-activedescendant`; `aria-label` overriding visible labels; no live region; silent disabled state; 20 px targets | Timer ref, active reset, mounted listbox, visible labels, `role=status`, `aria-disabled` with explanation, 24 px targets, focus return, Home/End tabs | `tests/client/frontend.test.jsx`, `tests/client/app.test.jsx` |
 | Accessibility | Field border 2.57:1, placeholder 4.23:1 | Border 4.0:1, placeholder 5.4:1, amber 5.6:1 | Measured (WCAG formula) |
-| Maintainability | Endpoints registered in several places | `server/routes.js` + parity test against `api/` and `vercel.json` | `tests/routes.test.js` |
+| Maintainability | Endpoints registered in several places | `server/routes.js` + parity test against `api/` and `vercel.json` | `tests/server/routes.test.js` |
 
 **Results**
 

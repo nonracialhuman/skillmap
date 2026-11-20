@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
-import { clientKey, createRateLimiter } from '../server/rateLimit.js';
-import { jsonResponse } from './helpers.js';
+import { clientKey, createRateLimiter } from '../../server/rateLimit.js';
+import { jsonResponse } from '../helpers.js';
 
 const T0 = Date.UTC(2026, 10, 19, 12, 0, 30);
 

@@ -1,11 +1,11 @@
 // @vitest-environment jsdom
 import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import App from '../src/App.jsx';
-import { ApiError, NETWORK_MESSAGE, postJSON } from '../src/lib/api.js';
-import { partialNote } from '../src/lib/marketCopy.js';
-import { LIMITS } from '../shared/options.js';
-import fixture from './fixtures/report.json';
+import App from '../../src/App.jsx';
+import { ApiError, NETWORK_MESSAGE, postJSON } from '../../src/lib/api.js';
+import { partialNote } from '../../src/lib/marketCopy.js';
+import { LIMITS } from '../../shared/options.js';
+import fixture from '../fixtures/report.json';
 
 const respond = (body, status = 200) => new Response(JSON.stringify(body), { status, headers: { 'Content-Type': 'application/json' } });
 const abortError = () => Object.assign(new Error('aborted'), { name: 'AbortError' });

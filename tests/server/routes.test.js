@@ -1,19 +1,19 @@
 import { existsSync, readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { ROUTES } from '../server/routes.js';
-import { ReportSchema } from '../server/schema.js';
-import { SYSTEM_PROMPT } from '../server/prompt.js';
-import fixture from './fixtures/report.json';
+import { ROUTES } from '../../server/routes.js';
+import { ReportSchema } from '../../server/schema.js';
+import { SYSTEM_PROMPT } from '../../server/prompt.js';
+import fixture from '../fixtures/report.json';
 
-const vercel = JSON.parse(readFileSync(new URL('../vercel.json', import.meta.url), 'utf8'));
+const vercel = JSON.parse(readFileSync(new URL('../../vercel.json', import.meta.url), 'utf8'));
 
 describe('route parity (Vite dev server vs Vercel functions)', () => {
   for (const [path, { handler, maxDuration }] of Object.entries(ROUTES)) {
     const file = `api/${path.replace(/^\/api\//, '')}.js`;
 
     it(`${path}: has a Vercel adapter that uses the same handler`, async () => {
-      expect(existsSync(new URL(`../${file}`, import.meta.url))).toBe(true);
-      const src = readFileSync(new URL(`../${file}`, import.meta.url), 'utf8');
+      expect(existsSync(new URL(`../../${file}`, import.meta.url))).toBe(true);
+      const src = readFileSync(new URL(`../../${file}`, import.meta.url), 'utf8');
       expect(src).toContain(handler.name || 'makeVercelHandler');
       expect(src).toContain('makeVercelHandler');
     });
@@ -24,12 +24,12 @@ describe('route parity (Vite dev server vs Vercel functions)', () => {
   }
 
   it('the LLM deadline fits inside the analyze function limit', async () => {
-    const { OVERALL_DEADLINE_MS } = await import('../server/llm.js');
+    const { OVERALL_DEADLINE_MS } = await import('../../server/llm.js');
     expect(OVERALL_DEADLINE_MS).toBeLessThan(ROUTES['/api/analyze'].maxDuration * 1000);
   });
 
   it('the market worst case fits inside the market function limit', async () => {
-    const { WORST_CASE_MS } = await import('../server/market/service.js');
+    const { WORST_CASE_MS } = await import('../../server/market/service.js');
     expect(WORST_CASE_MS).toBeLessThan(ROUTES['/api/market'].maxDuration * 1000);
   });
 });

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { routeStations } from '../src/lib/routeStations.js';
-import fixture from './fixtures/report.json';
+import { routeStations } from '../../src/lib/routeStations.js';
+import fixture from '../fixtures/report.json';
 
 describe('routeStations', () => {
   it('orders bridges by distance from held skills and lists where each is reached from', () => {

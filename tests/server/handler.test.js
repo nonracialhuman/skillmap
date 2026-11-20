@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
-import { createDeps, handleAnalyze } from '../server/handler.js';
-import { createRateLimiter } from '../server/rateLimit.js';
-import { fetchSequence, groqOk, jsonResponse } from './helpers.js';
+import { createDeps, handleAnalyze } from '../../server/handler.js';
+import { createRateLimiter } from '../../server/rateLimit.js';
+import { fetchSequence, groqOk, jsonResponse } from '../helpers.js';
 
 const ENV = { GROQ_API_KEY: 'sk-test-SECRET' };
 

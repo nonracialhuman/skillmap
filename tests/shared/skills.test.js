@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { canonicalSkill, computeSkillGap, expandSkill, normalizeSkillList } from '../shared/skills.js';
+import { canonicalSkill, computeSkillGap, expandSkill, normalizeSkillList } from '../../shared/skills.js';
 
 describe('canonicalSkill', () => {
   it.each([

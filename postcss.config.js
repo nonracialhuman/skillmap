@@ -1,6 +1,6 @@
+// Vendor prefixes for the browsers in the default browserslist query.
 export default {
-    plugins: {
-        tailwindcss: {},
-        autoprefixer: {},
-    },
+  plugins: {
+    autoprefixer: {},
+  },
 }

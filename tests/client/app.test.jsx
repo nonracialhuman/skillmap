@@ -1,8 +1,8 @@
 // @vitest-environment jsdom
 import { cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import App from '../src/App.jsx';
-import fixture from './fixtures/report.json';
+import App from '../../src/App.jsx';
+import fixture from '../fixtures/report.json';
 
 const market = {
   source: 'Public Greenhouse and Lever job boards', fetchedAt: '2026-11-19T10:00:00Z', role: 'Full Stack Developer',

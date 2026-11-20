@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { AppError } from '../server/errors.js';
-import { DEFAULT_MODEL, GROQ_URL, generateReport, llmConfig, parseModelJSON } from '../server/llm.js';
-import { SYSTEM_PROMPT } from '../server/prompt.js';
-import fixture from './fixtures/report.json';
-import { fetchSequence, groqOk, jsonResponse } from './helpers.js';
+import { AppError } from '../../server/errors.js';
+import { DEFAULT_MODEL, GROQ_URL, generateReport, llmConfig, parseModelJSON } from '../../server/llm.js';
+import { SYSTEM_PROMPT } from '../../server/prompt.js';
+import fixture from '../fixtures/report.json';
+import { fetchSequence, groqOk, jsonResponse } from '../helpers.js';
 
 const env = { GROQ_API_KEY: 'test-key' };
 const input = { skills: ['React', 'Python'], goal: 'AI Engineer', location: 'US' };

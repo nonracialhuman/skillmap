@@ -42,4 +42,18 @@ export default [
     files: ['api/**/*.js', 'server/**/*.js', 'scripts/**/*.js', 'shared/**/*.js', 'tests/**/*.js', 'e2e/**/*.js', '*.config.js'],
     languageOptions: { globals: { ...globals.node } },
   },
+  // Layer boundaries: the browser bundle must never pull in server code (it holds
+  // secrets handling and Node APIs), and server/shared code must not depend on React.
+  {
+    files: ['src/**/*.{js,jsx}'],
+    rules: {
+      'no-restricted-imports': ['error', { patterns: [{ group: ['**/server/**', '**/api/**'], message: 'Browser code must not import server code. Put shared logic in shared/.' }] }],
+    },
+  },
+  {
+    files: ['server/**/*.js', 'api/**/*.js', 'shared/**/*.js'],
+    rules: {
+      'no-restricted-imports': ['error', { patterns: [{ group: ['**/src/**', 'react', 'react-dom', 'lucide-react'], message: 'Server and shared code must not depend on the React client.' }] }],
+    },
+  },
 ]

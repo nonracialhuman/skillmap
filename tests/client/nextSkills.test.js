@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { pickNextSkills } from '../src/lib/nextSkills.js';
-import fixture from './fixtures/report.json';
+import { pickNextSkills } from '../../src/lib/nextSkills.js';
+import fixture from '../fixtures/report.json';
 
 const market = { sampleSize: 20, skills: [{ skill: 'React', count: 18, share: 90 }, { skill: 'k8s', count: 9, share: 45 }, { skill: 'Docker', count: 8, share: 40 }] };
 

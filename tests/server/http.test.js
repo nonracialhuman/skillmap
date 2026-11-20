@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import { clientIp, makeVercelHandler, normalizeHeaders, resolveCors, trustsProxy } from '../server/http.js';
+import { clientIp, makeVercelHandler, normalizeHeaders, resolveCors, trustsProxy } from '../../server/http.js';
 
 describe('trustsProxy', () => {
   it('trusts Vercel by default', () => {
