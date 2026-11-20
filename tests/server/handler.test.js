@@ -172,3 +172,11 @@ describe('handleAnalyze — limits and upstream errors', () => {
     expect(JSON.stringify(out.body)).not.toContain('10.0.0.5');
   });
 });
+
+describe('error copy', () => {
+  it('upstream errors use endpoint-neutral wording (shared by analyze and market)', async () => {
+    const { errorBody, AppError } = await import('../../server/errors.js');
+    const msg = errorBody(new AppError('UPSTREAM_ERROR'), 'r').error.message;
+    expect(msg).not.toMatch(/analysis|job board|groq/i);
+  });
+});

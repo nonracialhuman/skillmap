@@ -13,7 +13,7 @@ const CATALOG = {
   UPSTREAM_BUSY: [503, 'Our AI provider is busy right now. Please try again in a minute.'],
   TIMEOUT: [504, 'Your analysis took longer than expected. Please try again.'],
   BAD_OUTPUT: [502, 'We couldn\'t put together a complete report this time. Please try again.'],
-  UPSTREAM_ERROR: [502, 'The analysis service had a hiccup. Please try again shortly.'],
+  UPSTREAM_ERROR: [502, 'A service we rely on had a hiccup. Please try again shortly.'], // shared by /api/analyze and /api/market
   SERVICE_UNAVAILABLE: [503, 'SkillMap is temporarily unavailable. We\'re on it — please try again later.'],
   INTERNAL: [500, 'Something unexpected went wrong on our side. Please try again.'],
 };

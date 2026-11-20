@@ -10,7 +10,10 @@ export default defineConfig(({ mode }) => {
   const env = { ...process.env, ...loadEnv(mode, process.cwd(), '') }
 
   // Dev/preview-only mirror of the Vercel functions in api/. Same handlers, prompt and schema.
-  const deps = createDeps(env)
+  // Created on first request, so `vite build` (which never serves the API) does not
+  // construct limiters or log their production config warnings.
+  let deps
+  const getDeps = () => (deps ??= createDeps(env))
   const route = (handler) => async (req, res) => {
     const headers = normalizeHeaders(req.headers)
     const raw = req.method === 'POST' ? await readBody(req) : ''
@@ -20,7 +23,7 @@ export default defineConfig(({ mode }) => {
       body: raw ?? '',
       bodyTooLarge: raw === null,
       ip: clientIp(headers, req.socket, env),
-    }, deps)
+    }, getDeps())
     send(res, out)
   }
   const mountApi = (server) => {

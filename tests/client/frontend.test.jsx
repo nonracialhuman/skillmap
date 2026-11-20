@@ -152,4 +152,15 @@ describe('App behaviour', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Remove React' }));
     expect(document.activeElement).toBe(skillsBox());
   });
+
+  it('shows the server disclaimer once, without a doubled "AI estimate" label', async () => {
+    const { AI_DISCLAIMER } = await import('../../shared/options.js');
+    vi.spyOn(globalThis, 'fetch').mockImplementation(async (url) => respond(url === '/api/market' ? { market: baseMarket() } : { report: fixture, meta: { estimate: true, disclaimer: AI_DISCLAIMER } }));
+    render(<App />);
+    addSkill('React');
+    submit();
+    await screen.findByRole('heading', { name: 'Your timetable' });
+    expect(document.body.textContent).not.toMatch(/AI estimate\.\s*AI estimate/i);
+    expect(document.body.textContent).toContain(AI_DISCLAIMER);
+  });
 });
